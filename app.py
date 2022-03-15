@@ -245,7 +245,7 @@ testid=[i for i in range(1,len(X_test))]
 
 with st.expander("Diagnose New Patients"):
     NewPatients = st.selectbox(
-        'Choose the patient id in the test set',testid ,key=1)
+        'Choose the patient id in the test set',testid ,key=str(1) )
     st.dataframe(X_test.iloc[[NewPatients-1]])
 
     Diagnose = st.selectbox(
