@@ -327,7 +327,7 @@ def show_perf_metrics(y_test, pred):
     target_name=df.iloc[:,-1].unique()
     # report = classification_report(y_test, pred, target_names= target_name, output_dict=True)
     # st.dataframe(pd.DataFrame(report).round(1).transpose())
-    conf_matrix = confusion_matrix(y_test, pred,list(set(y_test)),labels= target_name)
+    conf_matrix = confusion_matrix(y_test, pred,labels= list(set(y_test)))
     sns.set(font_scale=1.4)
     ax = plt.subplot()
     sns.heatmap(
