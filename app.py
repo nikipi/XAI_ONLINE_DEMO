@@ -387,7 +387,7 @@ def findthebestmodel():
 #     gridmodel1.fit(X_train, y_train)
 
 
-    gridmodel2 = GridSearchCV(Classifiers[1][1], params[2], cv=5, scoring='accuracy', return_train_score=False)
+    gridmodel2 = GridSearchCV(Classifiers[1][1], params[1], cv=5, scoring='accuracy', return_train_score=False)
     gridmodel2.fit(X_train, y_train)
 
 
