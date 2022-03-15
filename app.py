@@ -353,7 +353,7 @@ def show_perf_metrics(y_test, pred):
 
 Classifiers=[["Random Forest",RandomForestClassifier()],
                      # ["Support Vector Machine",SVC()],
-                     ["Logistic Regression",LogisticRegression()],
+#                      ["Logistic Regression",LogisticRegression()],
                      ["KNN", KNeighborsClassifier(n_neighbors=5)]]
 
 params =[{ 'n_estimators': [20, 30, 40, 50],
@@ -364,9 +364,9 @@ params =[{ 'n_estimators': [20, 30, 40, 50],
 
 
         },
-         {
-            'penalty': ['l1', 'l2'],
-            'C': [0.01,0.09, 1, 5] },
+#          {
+#             'penalty': ['l1', 'l2'],
+#             'C': [0.01,0.09, 1, 5]    },
 
 dict(n_neighbors=list(range(3, 15)))
 
@@ -383,15 +383,15 @@ def findthebestmodel():
     gridmodel0.fit(X_train, y_train)
 
 
-    gridmodel1 = GridSearchCV(Classifiers[1][1], params[1], cv=5, scoring='accuracy', return_train_score=False)
-    gridmodel1.fit(X_train, y_train)
+#     gridmodel1 = GridSearchCV(Classifiers[1][1], params[1], cv=5, scoring='accuracy', return_train_score=False)
+#     gridmodel1.fit(X_train, y_train)
 
 
-    gridmodel2 = GridSearchCV(Classifiers[2][1], params[2], cv=5, scoring='accuracy', return_train_score=False)
+    gridmodel2 = GridSearchCV(Classifiers[1][1], params[2], cv=5, scoring='accuracy', return_train_score=False)
     gridmodel2.fit(X_train, y_train)
 
 
-    return gridmodel0, gridmodel1,gridmodel2
+    return gridmodel0,gridmodel2
 
 models=findthebestmodel()
 
@@ -399,9 +399,9 @@ models=findthebestmodel()
 def modelpred():
 
     y_pred0 = models[0].predict(X_test)
-    y_pred1 = models[1].predict(X_test)
-    y_pred2 = models[2].predict(X_test)
-    return y_pred0,y_pred1,y_pred2
+#     y_pred1 = models[1].predict(X_test)
+    y_pred2 = models[1].predict(X_test)
+    return y_pred0,y_pred2
 
 modelpreds=modelpred()
 
@@ -440,8 +440,8 @@ with st.expander("Train Machine learning Models"):
     start = st.checkbox('Start training Machine learning models')
 
     if start:
-        st.write('Three models will be trained on the training data, their performance will be shown. You can choose the model to make the prediction.')
-        col1, col2,col3= st.columns(3)
+        st.write('Two models will be trained on the training data, their performance will be shown. You can choose the model to make the prediction.')
+        col1, col2= st.columns(2)
 
         with col1:
             st.write(Classifiers[0][0])
@@ -449,15 +449,15 @@ with st.expander("Train Machine learning Models"):
             plot_feature_importance(models[0].best_estimator_.feature_importances_, X.columns, 'Random Forest')
 
 
+#         with col2:
+#             st.write(Classifiers[1][0])
+#             show_perf_metrics(y_test, modelpreds[1])
+#             plot_feature_importance(models[1].best_estimator_.coef_[0], X.columns, 'KNN')
+
+
         with col2:
             st.write(Classifiers[1][0])
             show_perf_metrics(y_test, modelpreds[1])
-            plot_feature_importance(models[1].best_estimator_.coef_[0], X.columns, 'KNN')
-
-
-        with col3:
-            st.write(Classifiers[2][0])
-            show_perf_metrics(y_test, modelpreds[2])
 
             st.markdown('This model finds the %d most similar cases to make the prediction' % models[2].best_params_['n_neighbors'])
 
@@ -550,7 +550,7 @@ def get_neighbors(train, test_row, num_neighbors):
 
 with st.expander("Machine learning Predictions"):
     st.markdown('The patient with id number: %d in the test set'%(NewPatients))
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     with col1:
 
         rfpred = modelpreds[0][NewPatients-1]
@@ -561,17 +561,17 @@ with st.expander("Machine learning Predictions"):
 
 
 
-    with col2:
-        logpred = modelpreds[1][NewPatients-1]
-        res= trans(logpred)
-        st.markdown('Logistic regression model predicts its tumor as %s.' % res)
-        shapexplg(models[1], NewPatients)
+#     with col2:
+#         logpred = modelpreds[1][NewPatients-1]
+#         res= trans(logpred)
+#         st.markdown('Logistic regression model predicts its tumor as %s.' % res)
+#         shapexplg(models[1], NewPatients)
 
-    with col3:
-      knnpred = modelpreds[2][NewPatients-1]
+    with col2:
+      knnpred = modelpreds[1][NewPatients-1]
       res = trans(knnpred)
       st.markdown('KNN model predicts its tumor as %s.' % res)
-      shapexpknn(models[2], NewPatients)
+      shapexpknn(models[1], NewPatients)
       neighbors = get_neighbors(X_train, X_test.iloc[NewPatients-1], 4)
       st.write('The most similar cases are:')
       st.dataframe(neighbors)
