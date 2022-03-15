@@ -242,7 +242,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 with st.expander("Diagnose New Patients"):
     NewPatients = st.selectbox(
-        'Choose the patient id in the test set', [i for i in range(1,len(X_test))],key=1)
+        'Choose the patient id in the test set', [int(i) for i in range(1,len(X_test))],key=1)
     st.dataframe(X_test.iloc[[NewPatients-1]])
 
     Diagnose = st.selectbox(
