@@ -4,4 +4,6 @@ plotly
 mlxtend 
 seaborn
 shap
-scikit-learn==0.20.0
+scikit-learn
+sklearn
+pandas 
