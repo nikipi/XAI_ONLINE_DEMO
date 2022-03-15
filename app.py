@@ -504,7 +504,7 @@ def shapexplg(model, patientid):
 
 
 def shapexpknn(model, patientid):
-    model = models[2].best_estimator_
+    model = models[1].best_estimator_
     explainer = shap.KernelExplainer(model.predict_proba, X_train)
 
     # Get shap values for the test data observation whose index is 0, i.e. first observation in the test set
