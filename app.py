@@ -238,11 +238,14 @@ with st.expander("Dataset Exploration"):
 y=df.iloc[: ,-1]
 X = df.iloc[: , 0:-1]
 
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+testid=[i for i in range(1,len(X_test))]
 
 with st.expander("Diagnose New Patients"):
     NewPatients = st.selectbox(
-        'Choose the patient id in the test set', [int(i) for i in range(1,len(X_test))],key=1)
+        'Choose the patient id in the test set',testid ,key=1)
     st.dataframe(X_test.iloc[[NewPatients-1]])
 
     Diagnose = st.selectbox(
