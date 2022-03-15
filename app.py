@@ -590,12 +590,6 @@ with st.expander("Machine learning Predictions"):
 
 
 
-        # with col4:
-        #     st.write(Classifiers[1][0])
-        #     gridsvm = GridSearchCV(Classifiers[1][1], paramsvm, cv=5, scoring='accuracy', return_train_score=False)
-        #     gridsvm.fit(X_train, y_train)
-        #     y_pred = gridsvm.predict(X_test)
-        #     show_perf_metrics(y_test, y_pred)
 
 
 
@@ -606,68 +600,4 @@ with st.expander("Machine learning Predictions"):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# def get_dataset(upload_file,name):
-#     if upload_file is not None:
-#         df= pd.read_csv(upload_file, encoding="utf8")
-#         # replace all non alphanumeric column names to avoid lgbm issue
-#         df.columns = [
-#             "".join(c if c.isalnum() else "_" for c in str(x)) for x in df.columns
-#         ]
-#     if name == 'Iris':
-#         data = datasets.load_iris()
-#
-#     else:
-#         data = datasets.load_wine()
-#
-#     X = data.data
-#     y = data.target
-#     return X, y
-
-
-
-
-
-# st.set_option('deprecation.showfileUploaderEncoding', False)
-
-
-#
-# # def datapro(name):
-#
-# def getdf():
-#
-#          data = datasets.load_iris()
-#          df = pd.DataFrame(data.data, columns=['Sepal Length',
-#                                          'Sepal Width',
-#                                          'Petal Length',
-#                                           'Petal Width'])
-#          df['Class'] = 'Setosa'
-#          df.loc[50:100, 'Class'] = 'Versicolor'
-#          df.loc[100:150, 'Class'] = 'Virginica'
-#          # if st.checkbox('Show df'):
-#          #     st.write(df)
-#          return df
-#
-# df=getdf()
-#
-# st.write('Shape of dataset:', df.shape)
-#
-        # paramsvm = {'C': [0.1, 1, 10],
-        #             'gamma': [1, 0.1, 0.01],
-        #             'kernel': ['rbf', 'poly', 'sigmoid']}
 
