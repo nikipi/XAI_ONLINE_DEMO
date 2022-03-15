@@ -459,7 +459,7 @@ with st.expander("Train Machine learning Models"):
             st.write(Classifiers[1][0])
             show_perf_metrics(y_test, modelpreds[1])
 
-            st.markdown('This model finds the %d most similar cases to make the prediction' % models[2].best_params_['n_neighbors'])
+            st.markdown('This model finds the %d most similar cases to make the prediction' % models[1].best_params_['n_neighbors'])
 
 
 def trans(ip):
