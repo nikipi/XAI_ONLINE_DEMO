@@ -217,7 +217,6 @@ with st.expander("Dataset Exploration"):
     )
 
 
-
     # with st.echo(code_location='below'):
     #     import plotly.express as px
 
@@ -234,12 +233,24 @@ with st.expander("Dataset Exploration"):
         st.plotly_chart(fig2, use_container_width=True)
 
 
+@st.cache(allow_output_mutation=True)
+def split_df(dataframe):
+    y=dataframe.iloc[: ,-1]
+    X = dataframe.iloc[: , 0:-1]
+    return y, X
 
-y=df.iloc[: ,-1]
-X = df.iloc[: , 0:-1]
+y, X = split_df(df)
 
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+@st.cache(allow_output_mutation=True)
+def split_train_test(y,X):
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1234)
+
+    return  X_train, X_test, y_train, y_test
+
+
+X_train, X_test, y_train, y_test = split_train_test(y,X)
 
 testid=[i for i in range(1,len(X_test))]
 
@@ -318,13 +329,21 @@ def checkdia(y_pred,patientsid):
 
 import pickle
 
-modelrf = pickle.load(open('gridmodel0.pkl','rb'))
+
+@st.cache(allow_output_mutation=True)
+def import_molde():
+    modelrf = pickle.load(open('/Users/ypi/opt/anaconda3/python_scripts/XAI_ONLINE_DEMO/gridmodel0.pkl','rb'))
+
+
+    modelknn = pickle.load(open('/Users/ypi/opt/anaconda3/python_scripts/XAI_ONLINE_DEMO/gridmodel1.pkl','rb'))
+
+    return modelrf,modelknn
+
+modelrf,modelknn=import_molde()
+
+
 predrf =modelrf.predict(X_test)
-
-modelknn = pickle.load(open('gridmodel1.pkl','rb'))
 predknn =modelknn.predict(X_test)
-
-
 
 
 def show_perf_metrics(y_test, pred):
@@ -427,6 +446,7 @@ def trans(ip):
 import shap  # package used to calculate Shap values
 import streamlit.components.v1 as components
 
+@st.cache(suppress_st_warning=True)
 def shapexp(model, patientid):
     model = modelrf.best_estimator_
     explainer = shap.TreeExplainer(model)
@@ -454,7 +474,7 @@ def shapexp(model, patientid):
 #
 #     st_shap(shap.force_plot(explainer.expected_value, shap_values,feature_names=X.columns))
 
-
+@st.cache(suppress_st_warning=True)
 def shapexpknn(model, patientid):
     model = modelknn.best_estimator_
     explainer = shap.KernelExplainer(model.predict_proba, X_train)
@@ -528,6 +548,32 @@ with st.expander("Machine learning Predictions"):
       neighbors = get_neighbors(X_train, X_test.iloc[NewPatients-1], 4)
       st.write('The most similar cases are:')
       st.dataframe(neighbors)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
